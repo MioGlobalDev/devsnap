@@ -1,0 +1,11 @@
+{
+  "name": "devsnap-example-node-yarn",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Example project for devsnap (yarn).",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "lodash": "4.17.21"
+  }
+}
+

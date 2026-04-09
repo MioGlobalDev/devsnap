@@ -1,0 +1,11 @@
+{
+  "name": "devsnap-example-node-pnpm",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Example project for devsnap (pnpm).",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "lodash": "4.17.21"
+  }
+}
+
