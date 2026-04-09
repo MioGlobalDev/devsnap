@@ -30,11 +30,11 @@ Summary:
 
 Issues:
   - pnpm not found
-    当前环境未检测到 pnpm，可继续使用 npx fallback（已自动）
+    pnpm is not installed; npx fallback is available (already used by devsnap)
 
 Fix:
   - pnpm not found
     - npm install -g pnpm
-    - 或继续使用：npx -y pnpm@9.15.4 ...（devsnap 已自动 fallback）
+    - Or keep using: npx -y pnpm@9.15.4 ... (devsnap already falls back)
 ```
 

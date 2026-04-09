@@ -50,7 +50,7 @@ func NewDoctorCmd() *cobra.Command {
 						Title: "Node version mismatch",
 						Body:  fmt.Sprintf("expected: %s\ncurrent:  %s", s.Toolchains.Node, cur),
 						Fix: []string{
-							fmt.Sprintf("安装/切换 Node 到 %s（如 nvm/fnm；Windows 可用 fnm）", s.Toolchains.Node),
+							fmt.Sprintf("Install/switch Node to %s (e.g. nvm/fnm; on Windows consider fnm)", s.Toolchains.Node),
 						},
 					})
 				}
@@ -61,7 +61,7 @@ func NewDoctorCmd() *cobra.Command {
 						Title: "Python version mismatch",
 						Body:  fmt.Sprintf("expected: %s\ncurrent:  %s", s.Toolchains.Python, cur),
 						Fix: []string{
-							fmt.Sprintf("安装/切换 Python 到 %s（如 pyenv/pyenv-win）", s.Toolchains.Python),
+							fmt.Sprintf("Install/switch Python to %s (e.g. pyenv/pyenv-win)", s.Toolchains.Python),
 						},
 					})
 				}
@@ -70,23 +70,23 @@ func NewDoctorCmd() *cobra.Command {
 			// Missing command checks (based on detections)
 			if s.Detections.Node != nil {
 				issues = append(issues, checkCommandIssue("node", "Node", []string{
-					"安装 Node（https://nodejs.org/）",
+					"Install Node: https://nodejs.org/",
 				})...)
 
 				switch strings.ToLower(s.Detections.Node.PackageManager) {
 				case "npm":
 					issues = append(issues, checkCommandIssue("npm", "npm", []string{
-						"npm 通常随 Node 安装；若缺失请重装 Node",
+						"npm usually comes with Node; reinstall Node if missing",
 					})...)
 				case "pnpm":
 					// we have npx fallback, still tell user the clean fix
 					if _, err := exec.LookPath("pnpm"); err != nil {
 						issues = append(issues, issue{
 							Title: "pnpm not found",
-							Body:  "当前环境未检测到 pnpm，可继续使用 npx fallback（已自动）",
+							Body:  "pnpm is not installed; npx fallback is available (already used by devsnap)",
 							Fix: []string{
 								"npm install -g pnpm",
-								"或继续使用：npx -y pnpm@9.15.4 ...（devsnap 已自动 fallback）",
+								"Or keep using: npx -y pnpm@9.15.4 ... (devsnap already falls back)",
 							},
 						})
 					}
@@ -94,10 +94,10 @@ func NewDoctorCmd() *cobra.Command {
 					if _, err := exec.LookPath("yarn"); err != nil {
 						issues = append(issues, issue{
 							Title: "yarn not found",
-							Body:  "当前环境未检测到 yarn，可继续使用 npx fallback（已自动）",
+							Body:  "yarn is not installed; npx fallback is available (already used by devsnap)",
 							Fix: []string{
 								"npm install -g yarn",
-								"或继续使用：npx -y yarn@1.22.22 ...（devsnap 已自动 fallback）",
+								"Or keep using: npx -y yarn@1.22.22 ... (devsnap already falls back)",
 							},
 						})
 					}
@@ -106,12 +106,12 @@ func NewDoctorCmd() *cobra.Command {
 
 			if s.Detections.Python != nil {
 				issues = append(issues, checkCommandIssue("python", "Python", []string{
-					"安装 Python（https://www.python.org/downloads/）",
+					"Install Python: https://www.python.org/downloads/",
 				})...)
 
 				issues = append(issues, checkCommandIssue("pip", "pip", []string{
 					"python -m ensurepip --upgrade",
-					"或 python -m pip install -U pip",
+					"Or: python -m pip install -U pip",
 				})...)
 
 				switch strings.ToLower(s.Detections.Python.Manager) {
@@ -119,10 +119,10 @@ func NewDoctorCmd() *cobra.Command {
 					if _, err := exec.LookPath("poetry"); err != nil {
 						issues = append(issues, issue{
 							Title: "poetry not found",
-							Body:  "将会 fallback 到 pip（若快照 step 启用了 fallback）",
+							Body:  "Will fall back to pip (if the snapshot step includes fallback)",
 							Fix: []string{
 								"python -m pip install --user poetry",
-								"参考：https://python-poetry.org/docs/",
+								"Docs: https://python-poetry.org/docs/",
 							},
 						})
 					}
